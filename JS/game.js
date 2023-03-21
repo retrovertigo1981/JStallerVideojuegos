@@ -1,22 +1,54 @@
 /** @type {HTMLCanvasElement} */
 
-const canvas = document.querySelector('#game');
-const game = canvas.getContext('2d');
+const canvas = document.querySelector("#game");
+const game = canvas.getContext("2d");
 
-let canvasSize = window.innerHeight > window.innerWidth ? (window.innerWidth * 0.75) : (window,innerHeight * 0.75);
-let elementsSize = canvasSize / 10;
-
-window.addEventListener('load', startGame);
-window.addEventListener('resize', renderMap);
-
+window.addEventListener("load", setCanvasSize);
+window.addEventListener("resize", setCanvasSize);
+let canvasSize;
+let elementsSize;
 
 
-function renderMap() {
-   
-    canvas.setAttribute('width', canvasSize);
-    canvas.setAttribute('height', canvasSize);
-    console.log ({canvasSize, elementsSize});
 
+
+
+function startGame() {
+    
+    
+    game.font = elementsSize + 'px sans-serif';
+    game.textAlign = "end";
+    
+    for (let row = 1; row <= 10; row++) {
+        for (let col = 1; col <= 10; col++) {
+
+            game.fillText(emojis["O"], elementsSize * col, elementsSize * row); 
+        }
+                        
+    }
+
+    
+}
+
+function setCanvasSize() {
+
+  
+    if (window.innerHeight > window.innerWidth) {
+        canvasSize = window.innerWidth * 0.8
+    } else {
+        canvasSize = window.innerHeight * 0.8;
+    } 
+
+    console.log('width: ' + window.innerWidth)
+    console.log('height: ' + window.innerHeight)
+     
+    canvas.setAttribute("width", canvasSize);
+    canvas.setAttribute("height", canvasSize);
+
+    elementsSize = canvasSize / 10;
+
+    startGame();
+
+    
     
 }
 
@@ -24,23 +56,3 @@ function renderMap() {
 
 
 
-
-function startGame() {
-    // game.fillRect(20,20,100,100);
-    // game.clearRect(0,0,50,50)
-    
-    // game.font = '28px sans-serif';
-    // game.fillStyle = '#B46060';
-    // game.textAlign = 'start';
-    // game.fillText('Hola Mundo', 100, 50);
-    
-    game.font = elementsSize + 'px sans-serif';
-    game.textAlign = "end";
-    
-    for (i = 1; i <= 10; i++) {
-        game.fillText(emojis['X'], elementsSize * i, elementsSize);
-       
-    }   
-
-
-} 
