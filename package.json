@@ -1,0 +1,23 @@
+{
+  "name": "jstallervideojuegos",
+  "version": "1.0.0",
+  "description": "Taller de Creacion de un Videjuego con JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retrovertigo1981/JStallerVideojuegos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/retrovertigo1981/JStallerVideojuegos/issues"
+  },
+  "homepage": "https://github.com/retrovertigo1981/JStallerVideojuegos#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
