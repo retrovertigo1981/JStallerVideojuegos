@@ -6,7 +6,6 @@ let rdm = Math.floor(Math.random() * 3);
 
 const map = maps[rdm];
 
-// console.log(map);
 
 const mapsRows = map.trim().split("\n");
 const elementsMap = mapsRows.map((row) => row.trim().split(""));
