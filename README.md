@@ -1,4 +1,4 @@
-# Juego Emoji
+# Juego Emoji 💀
 
 El código proporcionado es un juego simple en el que el jugador controla un personaje representado por un emoji en un mapa hecho de otros emojis. El objetivo del juego es mover al jugador a través del mapa y encontrar un objeto representado por otro emoji.
 
