@@ -6,7 +6,6 @@ let rdm = Math.floor(Math.random() * 3);
 
 const map = maps[rdm];
 
-
 const mapsRows = map.trim().split("\n");
 const elementsMap = mapsRows.map((row) => row.trim().split(""));
 
@@ -19,6 +18,13 @@ const playerPosition = {
   x: undefined,
   y: undefined,
 };
+
+const giftPosition = {
+  x: undefined,
+  y: undefined,
+};
+
+const bombsPositions = [];
 
 let canvasSize;
 let elementsSize;
@@ -60,8 +66,8 @@ btnDown.addEventListener("click", moveDown);
 
 function moveUp() {
   console.log(canvasSize);
-  console.log(playerPosition.y);
-
+  console.log(playerPosition);
+  
   if (playerPosition.y <= (canvasSize / 10) * 2) {
     playerPosition.y = (canvasSize / 10) * 2;
   }
@@ -72,20 +78,21 @@ function moveUp() {
 
 function moveLeft() {
   console.log(canvasSize);
-  console.log(playerPosition.x);
+  console.log(playerPosition);
+  
   if (playerPosition.x <= canvasSize / 10) {
     playerPosition.x = elementsSize * 2;
   }
+ 
   playerPosition.x -= elementsSize;
-
   clearMap();
   movePlayer();
 }
 
 function moveRight() {
   console.log(canvasSize);
-  console.log(playerPosition.x);
-
+  console.log(playerPosition);
+  
   if (playerPosition.x >= canvasSize) {
     playerPosition.x = canvasSize - elementsSize;
   }
@@ -97,7 +104,8 @@ function moveRight() {
 
 function moveDown() {
   console.log(canvasSize);
-  console.log(playerPosition.y);
+  console.log(playerPosition);
+  
 
   if (playerPosition.y >= canvasSize) {
     playerPosition.y = playerPosition.y - elementsSize;
@@ -117,16 +125,20 @@ function startGame() {
       const posX = elementsSize * (colI + 1);
       const posY = elementsSize * (rowI + 1);
 
-      if (col === "O" && playerPosition.x === undefined) {
+      if (col == "O" && playerPosition.x == undefined) {
         playerPosition.x = posX;
         playerPosition.y = posY;
-      } else if (
-        playerPosition.x == !undefined ||
-        playerPosition.y == !undefined
-      ) {
-        playerPosition.x = playerPosition.x;
-        playerPosition.y = playerPosition.y;
+      } else if (col == "I") {
+        giftPosition.x = posX;
+        giftPosition.y = posY;
+      } else if (col == "X") {
+        bombsPositions.push({
+          x: posX,
+          y: posY
+        });
       }
+
+      
 
       game.fillText(emoji, posX, posY);
     });
@@ -161,6 +173,22 @@ function clearMap() {
 }
 
 function movePlayer() {
+  if (
+    playerPosition.x === giftPosition.x &&
+    playerPosition.y === giftPosition.y
+  ) {
+    console.log("Haz Ganado el Juego!!");
+    return game.fillText(emojis["WIN"], playerPosition.x, playerPosition.y)
+  } else {
+    for (let i = 0; i < bombsPositions.length; i++){
+      if (playerPosition.x == bombsPositions[i].x && playerPosition.y == bombsPositions[i].y) {
+        console.log('Haz Colisionado!!!')
+        return game.fillText(emojis["BOMB_COLLISION"], playerPosition.x, playerPosition.y);      
+        
+      }
+    }
+  }
+  
   game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y);
 }
 
