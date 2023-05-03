@@ -3,6 +3,7 @@
 const canvas = document.querySelector("#game");
 const game = canvas.getContext("2d");
 let level = 0;
+let lives = 3;
 
 const btnUp = document.querySelector("#up");
 const btnLeft = document.querySelector("#left");
@@ -111,10 +112,23 @@ function startGame() {
   game.textAlign = "end";
 
   const map = maps[level];
+  if(!map){
+    gameWin();
+    return;
+  }
+
+  if (lives === 0) {
+    lives = 3
+    gameOver();   
+    return
+  }
+
   const mapsRows = map.trim().split("\n");
   const elementsMap = mapsRows.map((row) => row.trim().split(""));
   game.clearRect(0, 0, canvasSize, canvasSize);
   bombsPositions = [];
+
+ 
 
   elementsMap.forEach((row, rowI) => {
     row.forEach((col, colI) => {
@@ -149,8 +163,7 @@ function movePlayer() {
     playerPosition.x.toFixed(3) === giftPosition.x.toFixed(3) &&
     playerPosition.y.toFixed(3) === giftPosition.y.toFixed(3)
   ) {
-    return levelWin();
-    
+    return levelWin();    
     
   } else {
     for (let i = 0; i < bombsPositions.length; i++) {
@@ -158,12 +171,8 @@ function movePlayer() {
         playerPosition.x.toFixed(3) === bombsPositions[i].x.toFixed(3) &&
         playerPosition.y.toFixed(3) === bombsPositions[i].y.toFixed(3)
       ) {
-        console.log("Haz Colisionado!!!");
-        return game.fillText(
-          emojis["BOMB_COLLISION"],
-          playerPosition.x.toFixed(3),
-          playerPosition.y.toFixed(3)
-        );
+        game.fillText(emojis["BOMB_COLLISION"],playerPosition.x.toFixed(3), playerPosition.y.toFixed(3))
+        return setTimeout(missingLives, 200);
       }
     }
   }
@@ -193,4 +202,25 @@ function setCanvasSize() {
 function levelWin() {
   level++;
   startGame()
+}
+
+function missingLives() {
+  console.log("Haz Colisionado!!!");
+  lives--
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame()
+}
+
+function gameWin() {
+  console.log('Haz ganado el juego!!!!')
+  game.fillText(emojis['WIN'], playerPosition.x.toFixed(3), playerPosition.y.toFixed(3))
+  return
+}
+
+function gameOver() {
+  game.clearRect(0, 0, canvasSize, canvasSize);
+  console.log('GAME OVER');
+  level = 0;
+  startGame();
 }
