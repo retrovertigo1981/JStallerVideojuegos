@@ -1,5 +1,7 @@
 # Juego Emoji 💀
 
+https://retrovertigo1981.github.io/JStallerVideojuegos/
+
 El código proporcionado es un juego simple en el que el jugador controla un personaje representado por un emoji en un mapa hecho de otros emojis. El objetivo del juego es mover al jugador a través del mapa y encontrar un objeto representado por otro emoji.
 
 ## Ejecución del juego
@@ -14,6 +16,8 @@ Este juego fue diseñado como un proyecto de aprendizaje para practicar el uso d
 
 
 # Emoji Game 💀
+https://retrovertigo1981.github.io/JStallerVideojuegos/
+
 The provided code is a simple game in which the player controls a character represented by an emoji on a map made of other emojis. The goal of the game is to move the player through the map and find an object represented by another emoji.
 
 ## Running the game
