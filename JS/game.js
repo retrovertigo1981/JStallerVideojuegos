@@ -5,10 +5,17 @@ const game = canvas.getContext("2d");
 let level = 0;
 let lives = 3;
 
+let timeStart; 
+let timePlayer;
+let timeInterval;
+
 const btnUp = document.querySelector("#up");
 const btnLeft = document.querySelector("#left");
 const btnRight = document.querySelector("#right");
 const btnDown = document.querySelector("#down");
+const counterLives = document.querySelector("#lives");
+const timer = document.querySelector('#times');
+const record = document.querySelector('#record')
 
 
 const playerPosition = {
@@ -25,6 +32,7 @@ let bombsPositions = [];
 
 let canvasSize;
 let elementsSize;
+
 
 // console.log(elementsMap);
 
@@ -117,11 +125,18 @@ function startGame() {
     return;
   }
 
+  if(!timeStart){
+    timeStart = Date.now();
+    timeInterval = setInterval(showTime, 100)
+  }
+
   if (lives === 0) {
     lives = 3
     gameOver();   
     return
   }
+
+
 
   const mapsRows = map.trim().split("\n");
   const elementsMap = mapsRows.map((row) => row.trim().split(""));
@@ -153,6 +168,8 @@ function startGame() {
     });
   });
 
+  record.innerHTML = localStorage.record_time
+  showLives();
   movePlayer();
 }
 
@@ -186,9 +203,9 @@ function movePlayer() {
 
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
-    canvasSize = window.innerWidth * 0.6;
+    canvasSize = window.innerWidth * 0.7;
   } else {
-    canvasSize = window.innerHeight * 0.6;
+    canvasSize = window.innerHeight * 0.7;
   }
 
   canvas.setAttribute("width", canvasSize);
@@ -196,6 +213,8 @@ function setCanvasSize() {
 
   elementsSize = canvasSize / 10;
 
+  playerPosition.x = undefined
+  playerPosition.y = undefined
   startGame();
 }
 
@@ -215,12 +234,41 @@ function missingLives() {
 function gameWin() {
   console.log('Haz ganado el juego!!!!')
   game.fillText(emojis['WIN'], playerPosition.x.toFixed(3), playerPosition.y.toFixed(3))
+  clearInterval(timeInterval)
+
+  const recordTime = localStorage.getItem('record_time');
+  // const playerTime = ((Date.now() - timeStart) / 1000).toFixed(2);
+
+  if (recordTime) {
+    if (recordTime >= timer.innerHTML) {
+      localStorage.setItem('record_time', timer.innerHTML)
+      console.log('SUPERASTE EL RECORD!! FELICITACIONES')
+    }else {
+      console.log('Lo siento. no superaste el record :(')
+    }
+  }else {
+    localStorage.setItem('record_time', timer.innerHTML)
+    
+  }
   return
+}
+
+function showLives() {
+  counterLives.innerHTML = emojis['HEART'].repeat(lives);
 }
 
 function gameOver() {
   game.clearRect(0, 0, canvasSize, canvasSize);
   console.log('GAME OVER');
   level = 0;
+  clearInterval(timeInterval)
+  timeStart = undefined;
   startGame();
+
 }
+
+function showTime() {
+  timer.innerHTML = ((Date.now() - timeStart) / 1000).toFixed(2)
+}
+
+
