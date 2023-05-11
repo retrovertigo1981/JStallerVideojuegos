@@ -16,6 +16,8 @@ const btnDown = document.querySelector("#down");
 const counterLives = document.querySelector("#lives");
 const timer = document.querySelector('#times');
 const record = document.querySelector('#record')
+const mensaje = document.querySelector('#mensaje');
+const mensaje2 = document.querySelector('#mensaje2')
 
 
 const playerPosition = {
@@ -116,6 +118,8 @@ function moveDown() {
 }
 
 function startGame() {
+  mensaje.innerHTML = '';
+  mensaje2.innerHTML = '';
   game.font = elementsSize + "px sans-serif";
   game.textAlign = "end";
 
@@ -232,7 +236,7 @@ function missingLives() {
 }
 
 function gameWin() {
-  console.log('Haz ganado el juego!!!!')
+  mensaje.innerHTML = 'Felicidades, has ganado el juego 🏆';
   game.fillText(emojis['WIN'], playerPosition.x.toFixed(3), playerPosition.y.toFixed(3))
   clearInterval(timeInterval)
 
@@ -242,9 +246,9 @@ function gameWin() {
   if (recordTime) {
     if (recordTime >= timer.innerHTML) {
       localStorage.setItem('record_time', timer.innerHTML)
-      console.log('SUPERASTE EL RECORD!! FELICITACIONES')
+      mensaje2.innerHTML = 'Felicidades, has Superado el Record!! 🎉🎉🎉🎈🎈🎈'
     }else {
-      console.log('Lo siento. no superaste el record :(')
+      mensaje2.innerHTML = 'Lo siento, no has superado el record 💔🥹, pero sigue intentándolo'
     }
   }else {
     localStorage.setItem('record_time', timer.innerHTML)
